@@ -19,7 +19,7 @@ enabled=PoolStringArray( "res://addons/clonk_importer/plugin.cfg" )
 
 [importer_defaults]
 
-clonk_c4d_importer={
+clonk_c4_importer={
 "c4group_path": "/home/elektordi/install/clonk/legacy_clonk/c4group"
 }
 
