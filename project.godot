@@ -8,6 +8,22 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Resource",
+"class": "ClonkDefCore",
+"language": "GDScript",
+"path": "res://addons/clonk_importer/resources/clonk_def_core.gd"
+}, {
+"base": "Resource",
+"class": "GenericTxt",
+"language": "GDScript",
+"path": "res://addons/clonk_importer/resources/generic_txt.gd"
+} ]
+_global_script_class_icons={
+"ClonkDefCore": "",
+"GenericTxt": ""
+}
+
 [application]
 
 config/name="ClonkImport"
