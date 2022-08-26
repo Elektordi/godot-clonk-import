@@ -61,6 +61,6 @@ func import(source_file, save_path, options, r_platform_variants, r_gen_files):
         type = ClonkStringTbl
     
     var res = type.new()
-    res.set_from_text(text)
+    res.set_from_text(text, source_file.get_base_dir())
     return ResourceSaver.save("%s.%s" % [save_path, get_save_extension()], res)
 

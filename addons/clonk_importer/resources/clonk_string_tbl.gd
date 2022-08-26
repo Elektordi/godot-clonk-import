@@ -5,7 +5,7 @@ class_name ClonkStringTbl
 export (Dictionary) var table = {}
 
 
-func set_from_text(text):
+func set_from_text(text, directory):
     for l in text.split("\n"):
         l = l.strip_edges()
         if l == "":

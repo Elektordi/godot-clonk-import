@@ -5,7 +5,7 @@ class_name ClonkActMap
 export (Dictionary) var data = {}
 
 
-func set_from_text(text):
+func set_from_text(text, directory):
     var action = {}
     var list = []
     for l in text.split("\n"):

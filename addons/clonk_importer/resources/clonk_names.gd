@@ -5,7 +5,7 @@ class_name ClonkNames
 export (Dictionary) var names = {}
 
 
-func set_from_text(text):
+func set_from_text(text, directory):
     var part = ""
     for l in text.split("\n"):
         l = l.strip_edges()
