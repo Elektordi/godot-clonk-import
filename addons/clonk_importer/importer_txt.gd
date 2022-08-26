@@ -41,15 +41,24 @@ func import(source_file, save_path, options, r_platform_variants, r_gen_files):
     var err = file.open(source_file, File.READ)
     if err != OK:
         return err
-    var text = file.get_buffer(65000).get_string_from_ascii()
+    file.seek_end()
+    var size = file.get_position()
+    file.seek(0)
+    var text = file.get_buffer(size).get_string_from_ascii()
     # file.as_text() decoding fails badly for non-utf8 text
     file.close()
     
     var filename = source_file.get_file()
     
     var type = GenericTxt
-    if filename == "DefCore.txt":
+    if filename.begins_with("DefCore"):
         type = ClonkDefCore
+    elif filename.begins_with("ActMap"):
+        type = ClonkActMap
+    elif filename.begins_with("Names"):
+        type = ClonkNames
+    elif filename.begins_with("StringTbl"):
+        type = ClonkStringTbl
     
     var res = type.new()
     res.set_from_text(text)

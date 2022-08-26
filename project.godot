@@ -10,9 +10,24 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Resource",
+"class": "ClonkActMap",
+"language": "GDScript",
+"path": "res://addons/clonk_importer/resources/clonk_act_map.gd"
+}, {
+"base": "Resource",
 "class": "ClonkDefCore",
 "language": "GDScript",
 "path": "res://addons/clonk_importer/resources/clonk_def_core.gd"
+}, {
+"base": "Resource",
+"class": "ClonkNames",
+"language": "GDScript",
+"path": "res://addons/clonk_importer/resources/clonk_names.gd"
+}, {
+"base": "Resource",
+"class": "ClonkStringTbl",
+"language": "GDScript",
+"path": "res://addons/clonk_importer/resources/clonk_string_tbl.gd"
 }, {
 "base": "Resource",
 "class": "GenericTxt",
@@ -20,7 +35,10 @@ _global_script_classes=[ {
 "path": "res://addons/clonk_importer/resources/generic_txt.gd"
 } ]
 _global_script_class_icons={
+"ClonkActMap": "",
 "ClonkDefCore": "",
+"ClonkNames": "",
+"ClonkStringTbl": "",
 "GenericTxt": ""
 }
 
