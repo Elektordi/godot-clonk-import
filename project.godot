@@ -9,37 +9,37 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Resource",
-"class": "ClonkActMap",
+"base": "Node2D",
+"class": "ClonkObject",
 "language": "GDScript",
-"path": "res://addons/clonk_importer/resources/clonk_act_map.gd"
+"path": "res://addons/clonk_importer/resources/clonk_object.gd"
 }, {
 "base": "Resource",
-"class": "ClonkDefCore",
+"class": "ClonkTxtActMap",
 "language": "GDScript",
-"path": "res://addons/clonk_importer/resources/clonk_def_core.gd"
+"path": "res://addons/clonk_importer/resources/clonk_txt_act_map.gd"
 }, {
 "base": "Resource",
-"class": "ClonkNames",
+"class": "ClonkTxtDefCore",
 "language": "GDScript",
-"path": "res://addons/clonk_importer/resources/clonk_names.gd"
+"path": "res://addons/clonk_importer/resources/clonk_txt_def_core.gd"
 }, {
 "base": "Resource",
-"class": "ClonkStringTbl",
+"class": "ClonkTxtNames",
 "language": "GDScript",
-"path": "res://addons/clonk_importer/resources/clonk_string_tbl.gd"
+"path": "res://addons/clonk_importer/resources/clonk_txt_names.gd"
 }, {
 "base": "Resource",
-"class": "GenericTxt",
+"class": "ClonkTxtStringTbl",
 "language": "GDScript",
-"path": "res://addons/clonk_importer/resources/generic_txt.gd"
+"path": "res://addons/clonk_importer/resources/clonk_txt_string_tbl.gd"
 } ]
 _global_script_class_icons={
-"ClonkActMap": "",
-"ClonkDefCore": "",
-"ClonkNames": "",
-"ClonkStringTbl": "",
-"GenericTxt": ""
+"ClonkObject": "",
+"ClonkTxtActMap": "",
+"ClonkTxtDefCore": "",
+"ClonkTxtNames": "",
+"ClonkTxtStringTbl": ""
 }
 
 [application]
@@ -55,6 +55,9 @@ enabled=PoolStringArray( "res://addons/clonk_importer/plugin.cfg" )
 
 clonk_c4_importer={
 "c4group_path": "/home/elektordi/install/clonk/legacy_clonk/c4group"
+}
+texture={
+"flags/filter": false
 }
 
 [physics]

@@ -1,6 +1,6 @@
 extends Resource
 
-class_name ClonkActMap
+class_name ClonkTxtActMap
 
 export (Dictionary) var data = {}
 

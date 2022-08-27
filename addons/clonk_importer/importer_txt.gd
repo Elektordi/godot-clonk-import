@@ -17,11 +17,11 @@ func get_recognized_extensions():
 
 
 func get_save_extension():
-    return "res"
+    return "scn"
 
 
 func get_resource_type():
-    return "Resource"
+    return "PackedScene"
 
 
 func get_preset_count():
@@ -37,30 +37,21 @@ func get_option_visibility(option, options):
 
 
 func import(source_file, save_path, options, r_platform_variants, r_gen_files):
-    var file = File.new()
-    var err = file.open(source_file, File.READ)
-    if err != OK:
-        return err
-    file.seek_end()
-    var size = file.get_position()
-    file.seek(0)
-    var text = file.get_buffer(size).get_string_from_ascii()
-    # file.as_text() decoding fails badly for non-utf8 text
-    file.close()
-    
     var filename = source_file.get_file()
-    
-    var type = GenericTxt
+
+    var type = null
     if filename.begins_with("DefCore"):
-        type = ClonkDefCore
-    elif filename.begins_with("ActMap"):
-        type = ClonkActMap
-    elif filename.begins_with("Names"):
-        type = ClonkNames
-    elif filename.begins_with("StringTbl"):
-        type = ClonkStringTbl
-    
-    var res = type.new()
-    res.set_from_text(text, source_file.get_base_dir())
-    return ResourceSaver.save("%s.%s" % [save_path, get_save_extension()], res)
+        type = ClonkObject
+
+    if type == null:
+        return ERR_SKIP
+
+    var node = type.new()
+    node.set_from_file(source_file)
+
+    var scene = PackedScene.new()
+    var result = scene.pack(node)
+    if result != OK:
+        return result
+    return ResourceSaver.save("%s.%s" % [save_path, get_save_extension()], scene)
 
