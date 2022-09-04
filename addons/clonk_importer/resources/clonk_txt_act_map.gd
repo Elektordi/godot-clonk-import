@@ -24,7 +24,16 @@ func set_from_text(text, directory):
         var x = l.split("=", false, 2)
         if x.size() < 2:
             continue
-        action[x[0]] = x[1]
+        action[x[0].to_lower()] = x[1]
 
     for l in list:
-        data[l['Name']] = l
+        data[l['name']] = l
+
+
+func get_data(anim, key, default=null):
+    key = key.to_lower()
+    if not data.has(anim):
+        return default
+    if not data[anim].has(key):
+        return default
+    return data[anim][key]
