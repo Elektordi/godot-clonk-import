@@ -1,35 +1,35 @@
-tool
+@tool
 extends EditorImportPlugin
 
 
 var plugin: EditorPlugin
 
 
-func get_importer_name():
+func _get_importer_name():
     return "clonk_c4_importer"
 
 
-func get_visible_name():
+func _get_visible_name():
     return "Clonk C4x importer"
 
 
-func get_recognized_extensions():
+func _get_recognized_extensions():
     return ["c4d", "c4g", "c4f", "c4s", "c4p"]
 
 
-func get_save_extension():
+func _get_save_extension():
     return "res"
 
 
-func get_resource_type():
+func _get_resource_type():
     return "Resource"
 
 
-func get_preset_count():
+func _get_preset_count():
     return 0
 
 
-func get_import_options(preset):
+func _get_import_options(preset):
     return [
         {
             "name": "c4group_path",
@@ -40,7 +40,7 @@ func get_import_options(preset):
     ]
 
 
-func get_option_visibility(option, options):
+func _get_option_visibility(option, options):
     return true
 
 

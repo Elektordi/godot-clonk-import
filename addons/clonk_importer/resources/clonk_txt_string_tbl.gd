@@ -2,7 +2,7 @@ extends Resource
 
 class_name ClonkTxtStringTbl
 
-export (Dictionary) var table = {}
+@export (Dictionary) var table = {}
 
 
 func set_from_text(text, directory):

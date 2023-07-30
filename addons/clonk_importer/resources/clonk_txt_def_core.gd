@@ -2,7 +2,7 @@ extends Resource
 
 class_name ClonkTxtDefCore
 
-export (Dictionary) var data = {"defcore":{}}
+@export (Dictionary) var data = {"defcore":{}}
 
 
 func set_from_text(text, directory):

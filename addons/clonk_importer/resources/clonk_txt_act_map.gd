@@ -2,7 +2,7 @@ extends Resource
 
 class_name ClonkTxtActMap
 
-export (Dictionary) var data = {}
+@export (Dictionary) var data = {}
 
 
 func set_from_text(text, directory):

@@ -1,12 +1,12 @@
-tool
+@tool
 extends Node2D
 
 class_name ClonkObject
 
 const fps = 38  # Got this from OpenClonk doc...
 
-export (Resource) var defcore = ClonkTxtDefCore.new()
-export (Resource) var actmap = ClonkTxtActMap.new()
+@export (Resource) var defcore = ClonkTxtDefCore.new()
+@export (Resource) var actmap = ClonkTxtActMap.new()
 
 
 func set_from_file(source_file):
@@ -16,7 +16,7 @@ func set_from_file(source_file):
 
     var graphics = load(directory+"/Graphics.png")
 
-    var sprite = Sprite.new()
+    var sprite = Sprite2D.new()
     add_child(sprite)
     sprite.set_owner(self)
     sprite.name = "Base"
@@ -46,7 +46,7 @@ func set_from_file(source_file):
             var delay = int(actmap.get_data(actname, "delay", 1))
             var framesdata = actmap.get_data(actname, "facet").split(",")
             anim.length = float(delay*length)/fps
-            sprite = Sprite.new()
+            sprite = Sprite2D.new()
             add_child(sprite)
             sprite.set_owner(self)
             sprite.name = "[Activity] "+actname
@@ -72,12 +72,12 @@ func set_from_file(source_file):
             anim.track_insert_key(track_index, 0.0, true)
             if actmap.get_data(actname, "nextaction")==actname:
                 anim.loop = true
-            player.add_animation(actname, anim)
+            player.add_animation_library(actname, anim)
             track_index = resetanim.add_track(Animation.TYPE_VALUE)
             anim.value_track_set_update_mode(track_index, Animation.UPDATE_DISCRETE)
             resetanim.track_set_path(track_index, sprite.name+":visible")
             resetanim.track_insert_key(track_index, 0.0, false)
-        player.add_animation("RESET", resetanim)
+        player.add_animation_library("RESET", resetanim)
 
 func read_file(source_file):
     var file = File.new()

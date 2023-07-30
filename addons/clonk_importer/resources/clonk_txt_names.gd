@@ -2,7 +2,7 @@ extends Resource
 
 class_name ClonkTxtNames
 
-export (Dictionary) var names = {}
+@export (Dictionary) var names = {}
 
 
 func set_from_text(text, directory):

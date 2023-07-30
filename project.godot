@@ -6,50 +6,17 @@
 ;   [section] ; section goes between []
 ;   param=value ; assign values to parameters
 
-config_version=4
-
-_global_script_classes=[ {
-"base": "Node2D",
-"class": "ClonkObject",
-"language": "GDScript",
-"path": "res://addons/clonk_importer/resources/clonk_object.gd"
-}, {
-"base": "Resource",
-"class": "ClonkTxtActMap",
-"language": "GDScript",
-"path": "res://addons/clonk_importer/resources/clonk_txt_act_map.gd"
-}, {
-"base": "Resource",
-"class": "ClonkTxtDefCore",
-"language": "GDScript",
-"path": "res://addons/clonk_importer/resources/clonk_txt_def_core.gd"
-}, {
-"base": "Resource",
-"class": "ClonkTxtNames",
-"language": "GDScript",
-"path": "res://addons/clonk_importer/resources/clonk_txt_names.gd"
-}, {
-"base": "Resource",
-"class": "ClonkTxtStringTbl",
-"language": "GDScript",
-"path": "res://addons/clonk_importer/resources/clonk_txt_string_tbl.gd"
-} ]
-_global_script_class_icons={
-"ClonkObject": "",
-"ClonkTxtActMap": "",
-"ClonkTxtDefCore": "",
-"ClonkTxtNames": "",
-"ClonkTxtStringTbl": ""
-}
+config_version=5
 
 [application]
 
 config/name="ClonkImport"
+config/features=PackedStringArray("4.0")
 config/icon="res://icon.png"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/clonk_importer/plugin.cfg" )
+enabled=PackedStringArray("res://addons/clonk_importer/plugin.cfg")
 
 [importer_defaults]
 
@@ -66,4 +33,4 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
-environment/default_environment="res://default_env.tres"
+environment/defaults/default_environment="res://default_env.tres"
