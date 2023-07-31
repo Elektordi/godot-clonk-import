@@ -79,9 +79,7 @@ func recursive_import(source: String, target: String):
 				return r
 			resources.append(target.path_join(f))
 	if not resources.is_empty():
-		print("start")
 		interface.get_resource_filesystem().reimport_files(resources)
-		print("end")
 	for d in defer_import:
 		var r = import_object(d[0], d[1])
 		if r != OK:
