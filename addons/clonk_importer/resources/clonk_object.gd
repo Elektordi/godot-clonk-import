@@ -50,6 +50,7 @@ func set_from_directory(directory: String, res_directory: String):
 		var player = AnimationPlayer.new()
 		add_child(player)
 		player.set_owner(self)
+		player.name = "Activities"
 		var lib = AnimationLibrary.new()
 		player.add_animation_library(name, lib)
 		var resetanim = Animation.new()
@@ -119,6 +120,22 @@ func set_from_directory(directory: String, res_directory: String):
 		sprite_top.region_rect = Rect2(int(topface[0]), int(topface[1]), int(topface[2]), int(topface[3]))
 		sprite_top.centered = base_sprite.centered
 		sprite_top.offset = Vector2(int(topface[4]), int(topface[5])) + base_sprite.offset
+
+	var collection = defcore.get_data("collection")
+	if collection:
+		collection = collection.split(",")
+		var area_collection = Area2D.new()
+		area_collection.name = "Collection"
+		var area_shape = CollisionShape2D.new()
+		area_shape.name = "Region"
+		area_shape.position = Vector2(int(collection[0])+int(collection[2])/2, int(collection[1])+int(collection[3])/2)
+		area_shape.shape = RectangleShape2D.new()
+		area_shape.shape.size = Vector2(int(collection[2]), int(collection[3]))
+		add_child(area_collection)
+		area_collection.add_child(area_shape)
+		area_collection.set_owner(self)
+		area_shape.set_owner(self)
+
 	return OK
 
 func read_file(source_file):
