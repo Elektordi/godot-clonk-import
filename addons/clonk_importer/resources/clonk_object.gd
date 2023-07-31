@@ -13,7 +13,17 @@ func set_from_directory(directory: String, res_directory: String):
 	defcore.set_from_text(read_file(directory.path_join("DefCore.txt")), directory)
 	name = defcore.get_data("name", "Object")
 
-	var graphics = load(res_directory.path_join("Graphics.png"))
+	var graphics = res_directory.path_join("Graphics.png")
+	if FileAccess.file_exists(graphics):
+		graphics = load(graphics)
+	else:
+		graphics = null
+
+	var overlay = res_directory.path_join("Overlay.png")
+	if FileAccess.file_exists(overlay):
+		overlay = load(overlay)
+	else:
+		overlay = null
 
 	var base_sprite = Sprite2D.new()
 	add_child(base_sprite)
@@ -25,6 +35,17 @@ func set_from_directory(directory: String, res_directory: String):
 		offset = offset.split(",")
 		base_sprite.offset = Vector2(int(offset[0]), int(offset[1]))
 		base_sprite.centered = false
+	var width = defcore.get_data("width")
+	var height = defcore.get_data("height")
+	if width and height:
+		base_sprite.region_enabled = true
+		base_sprite.region_rect = Rect2(0, 0, int(width), int(height))
+	if overlay:
+		var overlay_sprite = base_sprite.duplicate()
+		overlay_sprite.name = "Overlay"
+		overlay_sprite.texture = overlay
+		base_sprite.add_child(overlay_sprite)
+		overlay_sprite.set_owner(self)
 
 	var picture = defcore.get_data("picture")
 	if picture:
@@ -32,17 +53,17 @@ func set_from_directory(directory: String, res_directory: String):
 		var picture_sprite = Sprite2D.new()
 		add_child(picture_sprite)
 		picture_sprite.set_owner(self)
-		picture_sprite.visible = false
 		picture_sprite.name = "Picture"
 		picture_sprite.texture = graphics
 		picture_sprite.region_enabled = true
 		picture_sprite.region_rect = Rect2(int(picture[0]), int(picture[1]), int(picture[2]), int(picture[3]))
-
-	var width = defcore.get_data("width")
-	var height = defcore.get_data("height")
-	if width and height:
-		base_sprite.region_enabled = true
-		base_sprite.region_rect = Rect2(0, 0, int(width), int(height))
+		if overlay:
+			var overlay_sprite = picture_sprite.duplicate()
+			overlay_sprite.name = "Overlay"
+			overlay_sprite.texture = overlay
+			picture_sprite.add_child(overlay_sprite)
+			overlay_sprite.set_owner(self)
+		picture_sprite.visible = false
 
 	var actmap_file = directory.path_join("ActMap.txt")
 	if FileAccess.file_exists(actmap_file):
@@ -81,6 +102,13 @@ func set_from_directory(directory: String, res_directory: String):
 				sprite.offset = Vector2(int(framesdata[4]), int(framesdata[5])) + base_sprite.offset
 				sprite.centered = base_sprite.centered
 			sprite.hframes = length
+			if overlay:
+				var overlay_sprite = sprite.duplicate()
+				overlay_sprite.name = "Overlay"
+				overlay_sprite.texture = overlay
+				# TODO: Animate
+				sprite.add_child(overlay_sprite)
+				overlay_sprite.set_owner(self)
 			track_index = anim.add_track(Animation.TYPE_VALUE)
 			anim.value_track_set_update_mode(track_index, Animation.UPDATE_DISCRETE)
 			anim.track_set_path(track_index, sprite.name+":frame")
@@ -120,6 +148,12 @@ func set_from_directory(directory: String, res_directory: String):
 		sprite_top.region_rect = Rect2(int(topface[0]), int(topface[1]), int(topface[2]), int(topface[3]))
 		sprite_top.centered = base_sprite.centered
 		sprite_top.offset = Vector2(int(topface[4]), int(topface[5])) + base_sprite.offset
+		if overlay:
+			var overlay_sprite = sprite_top.duplicate()
+			overlay_sprite.name = "Overlay"
+			overlay_sprite.texture = overlay
+			sprite_top.add_child(overlay_sprite)
+			overlay_sprite.set_owner(self)
 
 	var collection = defcore.get_data("collection")
 	if collection:
