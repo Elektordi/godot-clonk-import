@@ -203,6 +203,22 @@ func set_from_directory(directory: String, res_directory: String):
 		area_collection.set_owner(self)
 		area_shape.set_owner(self)
 
+	var entrance = defcore.get_data("entrance")
+	if entrance:
+		entrance = entrance.split(",")
+		var area_entrance = Area2D.new()
+		area_entrance.name = "Entrance"
+		area_entrance.collision_layer = 8
+		var area_shape = CollisionShape2D.new()
+		area_shape.name = "Region"
+		area_shape.position = Vector2(int(entrance[0])+int(entrance[2])/2, int(entrance[1])+int(entrance[3])/2)
+		area_shape.shape = RectangleShape2D.new()
+		area_shape.shape.size = Vector2(int(entrance[2]), int(entrance[3]))
+		add_child(area_entrance)
+		area_entrance.add_child(area_shape)
+		area_entrance.set_owner(self)
+		area_shape.set_owner(self)
+
 	return OK
 
 func read_file(source_file):
