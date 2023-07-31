@@ -15,22 +15,34 @@ func set_from_directory(directory: String, res_directory: String):
 
 	var graphics = load(res_directory.path_join("Graphics.png"))
 
-	var sprite = Sprite2D.new()
-	add_child(sprite)
-	sprite.set_owner(self)
-	sprite.name = "Base"
-	sprite.texture = graphics
+	var base_sprite = Sprite2D.new()
+	add_child(base_sprite)
+	base_sprite.set_owner(self)
+	base_sprite.name = "Base"
+	base_sprite.texture = graphics
 	var offset = defcore.get_data("offset")
 	if offset:
 		offset = offset.split(",")
-		sprite.offset = Vector2(int(offset[0]), int(offset[1]))
-		sprite.centered = false
+		base_sprite.offset = Vector2(int(offset[0]), int(offset[1]))
+		base_sprite.centered = false
 
 	var picture = defcore.get_data("picture")
 	if picture:
 		picture = picture.split(",")
-		sprite.region_enabled = true
-		sprite.region_rect = Rect2(int(picture[0]), int(picture[1]), int(picture[2]), int(picture[3]))
+		var picture_sprite = Sprite2D.new()
+		add_child(picture_sprite)
+		picture_sprite.set_owner(self)
+		picture_sprite.visible = false
+		picture_sprite.name = "Picture"
+		picture_sprite.texture = graphics
+		picture_sprite.region_enabled = true
+		picture_sprite.region_rect = Rect2(int(picture[0]), int(picture[1]), int(picture[2]), int(picture[3]))
+
+	var width = defcore.get_data("width")
+	var height = defcore.get_data("height")
+	if width and height:
+		base_sprite.region_enabled = true
+		base_sprite.region_rect = Rect2(0, 0, int(width), int(height))
 
 	var actmap_file = directory.path_join("ActMap.txt")
 	if FileAccess.file_exists(actmap_file):
@@ -42,6 +54,10 @@ func set_from_directory(directory: String, res_directory: String):
 		player.add_animation_library(name, lib)
 		var resetanim = Animation.new()
 		resetanim.length = 0
+		var track_index = resetanim.add_track(Animation.TYPE_VALUE)
+		resetanim.value_track_set_update_mode(track_index, Animation.UPDATE_DISCRETE)
+		resetanim.track_set_path(track_index, base_sprite.name+":visible")
+		resetanim.track_insert_key(track_index, 0.0, true)
 		for actname in actmap.data:
 			var anim = Animation.new()
 			var length = int(actmap.get_data(actname, "length", 1))
@@ -52,20 +68,19 @@ func set_from_directory(directory: String, res_directory: String):
 				while framesdata.size()<6:
 					framesdata.append("0")
 			anim.length = float(delay*length)/fps
-			sprite = Sprite2D.new()
+			var sprite = Sprite2D.new()
 			add_child(sprite)
 			sprite.set_owner(self)
 			sprite.name = "[Activity] "+actname
 			sprite.visible = false
 			sprite.texture = graphics
-			sprite.centered = false
 			sprite.region_enabled = true
 			if framesdata:
 				sprite.region_rect = Rect2(int(framesdata[0]), int(framesdata[1]), int(framesdata[2])*length, int(framesdata[3]))
-				if offset:
-					sprite.offset = Vector2(int(framesdata[4])+int(offset[0]), int(framesdata[5])+int(offset[1]))
+				sprite.offset = Vector2(int(framesdata[4]), int(framesdata[5])) + base_sprite.offset
+				sprite.centered = base_sprite.centered
 			sprite.hframes = length
-			var track_index = anim.add_track(Animation.TYPE_VALUE)
+			track_index = anim.add_track(Animation.TYPE_VALUE)
 			anim.value_track_set_update_mode(track_index, Animation.UPDATE_DISCRETE)
 			anim.track_set_path(track_index, sprite.name+":frame")
 			if actmap.get_data(actname, "reverse", "") != "1":
@@ -78,6 +93,10 @@ func set_from_directory(directory: String, res_directory: String):
 			anim.value_track_set_update_mode(track_index, Animation.UPDATE_DISCRETE)
 			anim.track_set_path(track_index, sprite.name+":visible")
 			anim.track_insert_key(track_index, 0.0, true)
+			track_index = anim.add_track(Animation.TYPE_VALUE)
+			anim.value_track_set_update_mode(track_index, Animation.UPDATE_DISCRETE)
+			anim.track_set_path(track_index, base_sprite.name+":visible")
+			anim.track_insert_key(track_index, 0.0, false)
 			if actmap.get_data(actname, "nextaction")==actname:
 				anim.loop_mode = Animation.LOOP_LINEAR
 			lib.add_animation(actname, anim)
@@ -86,6 +105,20 @@ func set_from_directory(directory: String, res_directory: String):
 			resetanim.track_set_path(track_index, sprite.name+":visible")
 			resetanim.track_insert_key(track_index, 0.0, false)
 		lib.add_animation("RESET", resetanim)
+
+	var topface = defcore.get_data("topface")
+	if topface:
+		topface = topface.split(",")
+		var sprite_top = Sprite2D.new()
+		add_child(sprite_top)
+		sprite_top.set_owner(self)
+		sprite_top.name = "Topface"
+		sprite_top.texture = graphics
+		sprite_top.centered = false
+		sprite_top.region_enabled = true
+		sprite_top.region_rect = Rect2(int(topface[0]), int(topface[1]), int(topface[2]), int(topface[3]))
+		sprite_top.centered = base_sprite.centered
+		sprite_top.offset = Vector2(int(topface[4]), int(topface[5])) + base_sprite.offset
 	return OK
 
 func read_file(source_file):
