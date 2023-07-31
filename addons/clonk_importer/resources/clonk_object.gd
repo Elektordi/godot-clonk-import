@@ -155,11 +155,44 @@ func set_from_directory(directory: String, res_directory: String):
 			sprite_top.add_child(overlay_sprite)
 			overlay_sprite.set_owner(self)
 
+	var vertices = defcore.get_data("vertices")
+	if vertices:
+		var verticesx = defcore.get_data("vertexx", "").split(",")
+		var verticesy = defcore.get_data("vertexy", "").split(",")
+		vertices = int(vertices)
+		while verticesx.size()<vertices:
+			verticesx.append("0")
+		while verticesy.size()<vertices:
+			verticesy.append("0")
+		var body = RigidBody2D.new()
+		body.name = "Body"
+		body.collision_layer = 2
+		add_child(body)
+		body.set_owner(self)
+		if vertices == 1:
+			var shape = CollisionShape2D.new()
+			shape.name = "Point"
+			shape.position = Vector2(int(verticesx[0]), int(verticesy[0]))
+			shape.shape = CircleShape2D.new()
+			shape.shape.radius = 1
+			body.add_child(shape)
+			shape.set_owner(self)
+		else:
+			var shape = CollisionPolygon2D.new()
+			shape.name = "Polygon"
+			var points = PackedVector2Array()
+			for i in range(vertices):
+				points.append(Vector2(int(verticesx[i]), int(verticesy[i])))
+			shape.polygon = Geometry2D.convex_hull(points)
+			body.add_child(shape)
+			shape.set_owner(self)
+
 	var collection = defcore.get_data("collection")
 	if collection:
 		collection = collection.split(",")
 		var area_collection = Area2D.new()
 		area_collection.name = "Collection"
+		area_collection.collision_layer = 4
 		var area_shape = CollisionShape2D.new()
 		area_shape.name = "Region"
 		area_shape.position = Vector2(int(collection[0])+int(collection[2])/2, int(collection[1])+int(collection[3])/2)
