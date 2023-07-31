@@ -9,11 +9,11 @@ const fps = 38  # Got this from OpenClonk doc...
 @export var actmap: Resource = ClonkTxtActMap.new()
 
 
-func set_from_directory(directory: String):
+func set_from_directory(directory: String, res_directory: String):
 	defcore.set_from_text(read_file(directory.path_join("DefCore.txt")), directory)
 	name = defcore.get_data("name", "Object")
 
-	var graphics = load(directory+"/Graphics.png")
+	var graphics = load(res_directory.path_join("Graphics.png"))
 
 	var sprite = Sprite2D.new()
 	add_child(sprite)

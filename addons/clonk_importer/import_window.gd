@@ -27,6 +27,7 @@ func _on_button_import_pressed():
 	settings.set_setting("addons/clonk_importer/source", %config_source.text)
 	settings.set_setting("addons/clonk_importer/target", %config_target.text)
 	var importer = load("res://addons/clonk_importer/importer.gd").new()
+	importer.interface = interface
 	var r = importer.import(%config_c4group.text, %config_source.text, %config_target.text)
 	if r == null:
 		r = ERR_SCRIPT_FAILED
