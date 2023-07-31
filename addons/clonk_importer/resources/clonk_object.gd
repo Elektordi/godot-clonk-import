@@ -85,6 +85,7 @@ func set_from_directory(directory: String, res_directory: String):
 			var length = int(actmap.get_data(actname, "length", 1))
 			var delay = int(actmap.get_data(actname, "delay", 1))
 			var framesdata = actmap.get_data(actname, "facet")
+			var facetbase = int(actmap.get_data(actname, "facetbase", 0))
 			if framesdata:
 				framesdata = framesdata.split(",")
 				while framesdata.size()<6:
@@ -122,10 +123,11 @@ func set_from_directory(directory: String, res_directory: String):
 			anim.value_track_set_update_mode(track_index, Animation.UPDATE_DISCRETE)
 			anim.track_set_path(track_index, sprite.name+":visible")
 			anim.track_insert_key(track_index, 0.0, true)
-			track_index = anim.add_track(Animation.TYPE_VALUE)
-			anim.value_track_set_update_mode(track_index, Animation.UPDATE_DISCRETE)
-			anim.track_set_path(track_index, base_sprite.name+":visible")
-			anim.track_insert_key(track_index, 0.0, false)
+			if facetbase == 0:
+				track_index = anim.add_track(Animation.TYPE_VALUE)
+				anim.value_track_set_update_mode(track_index, Animation.UPDATE_DISCRETE)
+				anim.track_set_path(track_index, base_sprite.name+":visible")
+				anim.track_insert_key(track_index, 0.0, false)
 			if actmap.get_data(actname, "nextaction")==actname:
 				anim.loop_mode = Animation.LOOP_LINEAR
 			lib.add_animation(actname, anim)
