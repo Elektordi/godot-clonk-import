@@ -1,22 +1,19 @@
 @tool
 extends EditorPlugin
 
-
-var importer_c4
-var importer_txt
+const MENU_NAME = "Import Clonk (C4) files or directories..."
 
 
 func _enter_tree():
-    importer_c4 = preload("importer_c4.gd").new()
-    importer_c4.plugin = self
-    add_import_plugin(importer_c4)
-    importer_txt = preload("importer_txt.gd").new()
-    importer_txt.plugin = self
-    add_import_plugin(importer_txt)
+	add_tool_menu_item(MENU_NAME, _click)
 
 
 func _exit_tree():
-    remove_import_plugin(importer_c4)
-    importer_c4 = null
-    remove_import_plugin(importer_txt)
-    importer_txt = null
+	remove_tool_menu_item(MENU_NAME)
+
+
+func _click():
+	var import_window = preload("res://addons/clonk_importer/import_window.tscn").instantiate()
+	import_window.interface = get_editor_interface()
+	get_tree().root.add_child(import_window)
+	import_window.popup()
